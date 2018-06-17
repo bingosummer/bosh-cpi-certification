@@ -3,6 +3,7 @@
 set -e
 
 : ${NETWORK_NAME:?}
+: ${BOSH_LOG_LEVEL:?}
 
 source pipelines/shared/utils.sh
 source /etc/profile.d/chruby.sh
@@ -42,7 +43,7 @@ pushd ${output_dir} > /dev/null
   echo "deploying BOSH..."
 
   set +e
-  BOSH_LOG_PATH=$logfile bosh create-env \
+  BOSH_LOG_LEVEL=${BOSH_LOG_LEVEL} BOSH_LOG_PATH=$logfile bosh create-env \
     --vars-store "${output_dir}/creds.yml" \
     director.yml
   bosh_cli_exit_code="$?"
